@@ -1,38 +1,188 @@
-.App {
-  text-align: center;
+
+.logo{
+  margin: 0px;
+  padding: 0px;
+}
+.margin{
+        margin-left: auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.form-margin{
+  margin-left: 500px;
+  margin-top: 50px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'poppins',sans-serif;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+section{
+  position: relative;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+section .imgBox{
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+section .imgBox::before{
+  content:'';                                 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(255deg,#e91e63,#03a9f4);
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+section .imgBox img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+section .contentBox{
+  display: flex;
+  width: 50%;
+  height: 100%;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+section .contentBox .formBox{
+  width: 50%;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.formBox h1{
+  color:#607d8b;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  border-bottom: 4px solid#607d8b;
+  display: inline-block;
+  letter-spacing: 1px;
 }
+.inputBox{
+  margin-bottom: 20px;
+}
+.inputBox span{
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: inline-block;
+  color: #607db8;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing:1px;
+}
+.inputBox input{
+  width: 60%;
+  display: block;
+  padding: 10px 20px;
+  outline: none;
+  font-weight: 400;
+  border: 1px solid #607d8b;
+  font-size: 16px;
+  color: #607d8b;
+  background: transparent;
+  border-radius: 30px;
+
+}
+.inputBox input[type="submit"]{
+  background: green;
+  color: #fff;
+  outline: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.inputBox input[type="submit"]:hover
+{
+  background: #f53677;
+}
+.inputBox p{
+  color: #607d8b;
+}
+
+.inputBox p a{
+  color: #ff4584;
+}
+.formBox h5{
+  color: #607d8b;
+  margin: 30px 0 10px ;
+}
+.formBox .social{
+  display: flex;
+  margin: 20px 0 0 2px;
+}
+.formBox .social li{
+  list-style: none;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #607d8b;
+  border-radius: 50%;
+  margin: 0 7px;
+  cursor: pointer;
+}
+.formBox .social li:hover{
+  background: #ff4584;
+}
+.formBox .social li i{
+  transform: scale(1);
+  filter: invert(1);
+}
+
+@media (max-width:768px){
+  section .imgBox {
+    position: absolute;
+    left: 0;
+    top: auto;
+    width: 100%;
+    height: 100%;
+     
+  }
+  section .contentBox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+section .contentBox .formBox {
+  width: 100%;
+  padding: 40px;
+  background: rgb(255 255 255 / 0.5);
+  margin:auto;
+}
+}
+
+
+/* Error page CSS  */
+
+
+.not-found{
+  margin:200px 0 0 600px
+}
+.not-found p{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 100px;
+}
+.not-page h1{
+  font-size: 25px;
+  font-weight: 100px;
+  margin-left: 100px;
+} 

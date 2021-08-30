@@ -70,10 +70,10 @@ router.get('/signup',(req,res) =>{
 
 // user Registered using Async and wait
 
-router.post('/register',async(req,res) =>{
+router.post("/register",async(req,res) =>{
       console.log(req.body);
-      const {name, email, phone, work, password, cpassword} = req.body;
-      if(!name || !email || !phone || !work || !password || !cpassword){
+      const {name, email,password, cpassword} = req.body;
+      if(!name || !email || !password || !cpassword){
             return res.status(422).json({error:"Plz filled properly"})
       }
       try{
@@ -87,7 +87,7 @@ router.post('/register',async(req,res) =>{
 
             }
             else{
-                        const user = new User({name, email, phone, work, password, cpassword})
+                        const user = new User({name, email, password, cpassword})
                         // as middileware use for ncriptjs #code in userSchema.js
                         const usergistere = await user.save();
                         if(usergistere){
