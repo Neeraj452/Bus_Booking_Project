@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs/dist/bcrypt');
 const express = require('express');
+const authenticate = require("../middelware/authenticate");
+const emailsend = require("../model/emailsend"); 
+
 const router = express.Router()
 require('../db/connection');
 const User = require("../model/userSchema");
@@ -15,24 +18,11 @@ router.get('/',(req,res) =>{
      
 
 })
-router.get('/about',middelware,(req,res) =>{
-      res.send('hello about from the server')
+// router.get('/about',middelware,(req,res) =>{
+//       res.send('hello about from the server')
 
-})
-router.get('/contact',(req,res) =>{
-      res.send('hello contact from the server')
+// })
 
-})
-
-router.get('/signin',(req,res) =>{
-      res.send('hello sighin from the server')
-
-})
-
-router.get('/signup',(req,res) =>{
-      res.send('hello signUp from the server')
-
-})
 
 // user Registered using Promis
 
@@ -73,17 +63,20 @@ router.get('/signup',(req,res) =>{
 router.post("/register",async(req,res) =>{
       console.log(req.body);
       const {name, email,password, cpassword} = req.body;
+      const Email= email;
+      console.log(Email);
       if(!name || !email || !password || !cpassword){
-            return res.status(422).json({error:"Plz filled properly"})
+            return res.status(422).json({error:422})
       }
       try{
             const userExist = await User.findOne({email:email});
             if(userExist){
-                  return res.status(422).json({ error: "email already Exist"});
+                 
+                  return res.status(422).json({ error:422});
                   }
 
             else if(password != cpassword ){
-                  return res.status(422).json({ error: "Password are not matching"});
+                  return res.status(422).json({ error:422});
 
             }
             else{
@@ -91,6 +84,10 @@ router.post("/register",async(req,res) =>{
                         // as middileware use for ncriptjs #code in userSchema.js
                         const usergistere = await user.save();
                         if(usergistere){
+                              console.log({email:email})
+                              console.log(Email)
+                              emailsend.Emailsend(Email)
+                          
                          res.status(201).json({message:"user registed successfuly"})
                  }  
       }}
@@ -104,7 +101,7 @@ router.post('/signin',async(req,res)=>{
       try{
             const { email, password } = req.body;
             if(!email || !password){
-                  return res.status(400).json({erro:"Plz Filled the data"})
+                  return res.status(400).json({error:400})
             }
             const userLogin = await User.findOne({email:email});
             console.log(userLogin);
@@ -118,19 +115,29 @@ router.post('/signin',async(req,res)=>{
                   })
 
                 if(!isMatch){
-                      res.status(400).json({error:"Invalid crendials"})
+                      res.status(400).json({error:400})
                   }
                   else{
                         res.json({message:"User signin successfully"}) 
                   }
             }
             else{
-            res.status(400).json({error:"Invalid crendials"})
+            res.status(400).json({error:400})
             }
       }
       catch(err){
              console.log(err);
       }
+})
+
+
+
+router.get('/about',authenticate,(req,res) =>{
+     
+      console.log("hello my About")
+      console.log("rootcheck",req.rootUser);
+      res.send(req.rootUser)
+
 })
 
 module.exports = router;

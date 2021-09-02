@@ -20,8 +20,8 @@ const Login = ()=> {
       })
     });
 
-    const data = res.json();
-    if(data.status ===400 || !data){
+    const data = await res.json();
+    if(data.error === 400 ){
       window.alert("Invalid Credentials")
     }
     else{
@@ -39,11 +39,11 @@ const Login = ()=> {
               <div className="contentBox">
                 <div className = "formBox">
                   <h1>Sign In</h1>
-                  <form method="POST">
+                  <form method="POST" required  autoComplete="on">
                   
                     <div className ="inputBox">
                     <span>Email</span>
-                    <input type = "email" name="email" id="email"
+                    <input type = "email" name="email" id="email" 
                      value={email}
                      onChange={ (e)=>{ setEmail(e.target.value)
                      }}
@@ -51,7 +51,7 @@ const Login = ()=> {
                     </div>
                     <div className ="inputBox">
                     <span>Password</span>
-                    <input type = "password" name="password" id="password"
+                    <input type = "password" name="password" id="password" 
                      value={password}
                      onChange={ (e)=>{setPassword(e.target.value)
                      }}
