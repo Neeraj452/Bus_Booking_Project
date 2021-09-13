@@ -18,8 +18,7 @@ const About = ()=> {
                 console.log("about res.status",res.status);
                 // now data have all details user
                 const data = await res.json();
-             
-               
+                console.log(data.reservations)
                 if(!res.status === 200){
                       const error = new Error(res.error);
                       throw error;

@@ -31,6 +31,10 @@ const Novbar = ()=>{
                           <NavLink className="nav-link text-light" to="/Signup">Ragister</NavLink>
                         </li>
                         <li className="nav-item">
+                          <NavLink className="nav-link text-light" to="/Reservation">Reservation</NavLink>
+                        </li>
+                    
+                        <li className="nav-item">
                           <NavLink className="nav-link text-light" to="/Contact">Contact</NavLink>
                         </li>
                         <li className="nav-item">

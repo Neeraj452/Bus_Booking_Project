@@ -21,6 +21,9 @@ const Login = ()=> {
     });
 
     const data = await res.json();
+
+    console.log("data1",data)
+    console.log("data",data.email)
     if(data.error === 400 ){
       window.alert("Invalid Credentials")
     }

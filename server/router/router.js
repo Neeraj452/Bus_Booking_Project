@@ -8,20 +8,12 @@ const router = express.Router()
 require('../db/connection');
 const User = require("../model/userSchema");
 
-const middelware = (req,res,next) =>{
-      console.log('hello my middleware')
-      next();
-}
-
 router.get('/',(req,res) =>{
       res.send('hello word from the server')
      
 
 })
-// router.get('/about',middelware,(req,res) =>{
-//       res.send('hello about from the server')
 
-// })
 
 
 // user Registered using Promis
@@ -62,10 +54,11 @@ router.get('/',(req,res) =>{
 
 router.post("/register",async(req,res) =>{
       console.log(req.body);
-      const {name, email,password, cpassword} = req.body;
+      const {name, phone, email,password, cpassword} = req.body;
       const Email= email;
+    
       console.log(Email);
-      if(!name || !email || !password || !cpassword){
+      if(!name || !phone ||!email || !password || !cpassword){
             return res.status(422).json({error:422})
       }
       try{
@@ -80,13 +73,13 @@ router.post("/register",async(req,res) =>{
 
             }
             else{
-                        const user = new User({name, email, password, cpassword})
+                        const user = new User({name, phone, email, password, cpassword})
                         // as middileware use for ncriptjs #code in userSchema.js
                         const usergistere = await user.save();
                         if(usergistere){
-                              console.log({email:email})
+                             
                               console.log(Email)
-                              emailsend.Emailsend(Email)
+                              emailsend.Emailsend(Email,name)
                           
                          res.status(201).json({message:"user registed successfuly"})
                  }  
@@ -110,7 +103,7 @@ router.post('/signin',async(req,res)=>{
 
                   const token = await userLogin.generateAuthToken();
                   res.cookie("jwtoken",token,{
-                        expires:new Date(Date.now() + 100000),
+                        expires:new Date(Date.now() + 1000000),
                         httpOnly:true
                   })
 
@@ -130,7 +123,36 @@ router.post('/signin',async(req,res)=>{
       }
 })
 
+router.post('/reservation', async(req,res)=>{
+            console.log("body",req.body);
+            const {bus_no,email,Initial_place,Destination,Date,time,Amount,Seat_NO} =req.body
+            if(!bus_no || !email || !Initial_place || !Destination || !Date || !time || !Amount || !Seat_NO){
+                  console.log("Please Fill All Data")
+                              return res.status(400).json({error:"Please Fill All Data"})
+            }
+            try{
+            const userExist = await User.findOne({email:email});
+            console.log(userExist);
+            if(!userExist){
+                 
+                  return res.status(422).json({ error:"Not ragistered"});
+                  }
+                  else{
+                              //  generateResevation funtion definition written in userSchema.js 
+                        reservationDeatails = await userExist.generateResevation(bus_no,Initial_place,Destination,Date,time,Amount,Seat_NO)
+                        if(reservationDeatails){
+                              emailsend.SendEmailResevation(bus_no,email,Initial_place,Destination,Date,time,Amount,Seat_NO)
+                              res.json({message:"User reservationDeatails` successfully"})
+                        }
+                        else{
+                              res.status(400).json({error:"Not save reservationDeatails"})
+                        }
+      }}
+      catch(err){
+            console.log(err)
+      }
 
+})
 
 router.get('/about',authenticate,(req,res) =>{
      
@@ -140,4 +162,29 @@ router.get('/about',authenticate,(req,res) =>{
 
 })
 
+
+router.get('/checkLogin',authenticate,(req,res) =>{
+     
+      console.log("hello my checkLogin")
+      console.log("checkLogin",req.rootUser);
+      res.send(req.rootUser)
+
+})
+
+
+router.get('/getData',authenticate,(req,res) =>{
+     
+      console.log("hello my getData")
+      console.log("getData",req.rootUser);
+      res.send(req.rootUser)
+
+})
+
+router.get('/Reservation',authenticate,(req,res) =>{
+     
+      console.log("hello my Reservation")
+      console.log("Reservation",req.rootUser);
+      res.send(req.rootUser)
+
+})
 module.exports = router;

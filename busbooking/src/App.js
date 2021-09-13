@@ -7,6 +7,7 @@ import Contact from './components/Contact';
 import Signup from './components/Signup';
 import About from './components/About';
 import Login from './components/Login';
+import Reservation from './components/Reservation';
 import Errorpage from './components/Errorpage';
 const App = () =>{
   return(
@@ -27,6 +28,9 @@ const App = () =>{
     </Route>
     <Route path="/Signup">
       <Signup />
+    </Route>
+    <Route path="/Reservation">
+      <Reservation />
     </Route>
     <Route>
       <Errorpage />

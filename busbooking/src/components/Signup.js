@@ -2,40 +2,12 @@
 import React, {useState} from 'react'
 import pizza from '../image/pizza.jpg';
 import {useHistory} from 'react-router-dom';
-// var nodemailer = require('nodemailer');
-
-// const HandelEmail = ()=>{
-//   var transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//       user: 'neerajmaurya75725611@gmail.com',
-//       pass: 'Neeraj@75725611'
-//     }
-//   });
-  
-//   var mailOptions = {
-//     from: 'neerajmaurya75725611@gmail.com',
-//     to: 'namitamaurya70@gmail.com',
-//     subject: 'Sending Email using Node.js',
-//     text: `Hi Smartherd, thank you for your nice Node.js tutorials.
-//             I will donate 50$ for this course. Please send me payment options.`
-//     // html: '<h1>Hi Smartherd</h1><p>Your Messsage</p>'        
-//   };
-  
-//   transporter.sendMail(mailOptions, function(error, info){
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       console.log('Email sent: ' + info.response);
-//     }
-//   });
-// }
 
 const Signup = ()=> {
   const history = useHistory();
 
   const [user, setUser] = useState({
-  name:"", email:"", password:"",cpassword:"" });
+  name:"", phone:"",email:"", password:"",cpassword:"" });
 
   let name,value;
   const handleInputs = (e)=>{
@@ -47,13 +19,13 @@ const Signup = ()=> {
 
           const PostData = async(e)=>{
             e.preventDefault();
-            const {name, email, password,cpassword} = user;
+            const {name,phone, email, password,cpassword} = user;
             console.log("datapost1")
             const res = await fetch("/register", {
               method: "POST",
               headers: {"Content-Type" : "application/json" },
               body: JSON.stringify({
-                name, email, password,cpassword
+                name, phone, email, password, cpassword
               })
 
             });
@@ -91,6 +63,13 @@ const Signup = ()=> {
                         onChange={handleInputs}
                          id="name"></input>
                     </div>
+                      <div className ="inputBox">
+                    <span>Phone No.</span>
+                    <input type = "number" name="phone"  
+                        value={user.phone}
+                        onChange={handleInputs}
+                         id="name"></input>
+                    </div>
 
                     <div className ="inputBox">
                     <span>Email</span>
@@ -109,7 +88,7 @@ const Signup = ()=> {
                     </div>
 
                     <div className ="inputBox">
-                    <span>Confome Password</span>
+                    <span>Confirm Password</span>
                     <input type = "password" name="cpassword" 
                         value={user.cpassword}
                         onChange={handleInputs}

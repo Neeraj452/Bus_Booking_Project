@@ -7,7 +7,11 @@ const userSchema = new mongoose.Schema({
             type:String,
             required:true
       },
+      phone:{ 
+            type:String,
+            required:false
 
+      },
       email:{
             type:String,
             required:true
@@ -20,6 +24,39 @@ const userSchema = new mongoose.Schema({
             type:String,
             required:true
       },
+      reservations:[
+            {
+                  bus_no:{
+                        type:Number,
+                        required:true
+                  },
+                  Initial_place:{
+                        type:String,
+                        required:true
+                  },
+                  Destination:{
+                        type:String,
+                        required:true
+                  },
+                  Date:{
+                        type:String,
+                        required:true
+                  },
+                  time:{
+                        type:String,
+                        required:true
+                  },
+                  Amount:{
+                        type:Number,
+                        required:false
+                  },
+                  Seat_NO:{
+                        type:String,
+                        required:false
+                  },
+            }
+
+      ],
       tokens:[
             {
                   token:{
@@ -45,7 +82,7 @@ userSchema.methods.generateAuthToken = async function(){
       try{
             let token2 = jwt.sign({_id:this._id},process.env.SECRET_KEY); // generating the token
             this.tokens = this.tokens.concat({ token:token2 });
-            token1 = await this.save();
+            const token1 = await this.save();
             if(token1){
                   console.log("token save succusefull");
             }
@@ -53,6 +90,28 @@ userSchema.methods.generateAuthToken = async function(){
                   console.log("Not save token");
             }
             return token2;
+
+      }
+      catch(err){
+            console.log(err);
+      }
+}
+
+// BusBooking Resevation details save in database
+
+userSchema.methods.generateResevation = async function(bus_no,Initial_place,Destination,Date,time,Amount,Seat_NO){
+      try{
+           
+            this.reservations = this.reservations.concat({bus_no,Initial_place,Destination,Date,time,Amount,Seat_NO})
+            const reservationDeatails = await this.save();
+            if(reservationDeatails){
+                  console.log("reservationDeatails save succusefull");
+            }
+            else{
+                  console.log("Not save reservationDeatails");
+            }
+            return reservationDeatails
+            
 
       }
       catch(err){
